@@ -71,13 +71,12 @@ relaxed_lasso <- function(Y, n, S = NULL, p = NULL, nlambda = 4, ...) {
 
 
 predict.glaxo <- function(object, newdata, scale = TRUE, ...) {
-
+  if (missing(newdata)) stop("newdata must be specified")
   if (scale) {
     newdata <- scale(newdata)
     og_mean <- attr(newdata, "scaled:center")
     og_sd <- attr(newdata, "scaled:scale")
   }
-
   # precision matrix (glasso precision matrix is not always symmetric)
   theta <- solve(object$fit$w)
   p <- ncol(theta)
@@ -98,8 +97,8 @@ predict.glaxo <- function(object, newdata, scale = TRUE, ...) {
   }
 
   # rescale
-  prediction_rescaled <- sweep(pred_mat, 2, og_sd, "*")
-  predictions <- sweep(pred_mat, 2, og_mean, "+")
+  predictions_rescaled <- sweep(pred_mat, 2, og_sd, "*")
+  predictions <- sweep(predictions_rescaled, 2, og_mean, "+")
 
   ret <- list(predictions = predictions,
               beta_matrix = coef_mat)
