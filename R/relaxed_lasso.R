@@ -56,7 +56,7 @@ relaxed_lasso <- function(Y, n, S = NULL, p = NULL, nlambda = 4, ...) {
 
 
 
-#' Predict
+#' Predict method for glaxo object
 #'
 #' @param object
 #' @param newdata
