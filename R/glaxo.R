@@ -3,23 +3,22 @@
 #' @param Y
 #' @param S
 #' @param n
-#' @param nlambda
+#' @param nlambda_relaxed
 #' @param ...
 #'
 #'
 #' @example
-#'library(GGMnonreg)
 #'library(GGMncv)
 #'main <- gen_net()
 #'n <- 5000
 #'Y <- MASS::mvrnorm(n, mu = rep(0, 20), main$cors)
-#'fit <- ggmncv(cor(Y), penalty = "lasso",
-#'              n = n,
-#'              ic = "bic")
+#'
+#'relaxed_glass <- glaxo(Y, n)
+#'
 #'
 
 
-relaxed_lasso <- function(Y, n, S = NULL, p = NULL, nlambda = 4, ...) {
+glaxo <- function(Y, n, S = NULL, p = NULL, nlambda_relaxed = 4, ic = "bic", ...) {
   dots <- list(...)
 
   if (is.null(S)) {R <- cor(Y); p <- ncol(Y)} else {R <- cov2cor(S); p <- p}
@@ -27,13 +26,13 @@ relaxed_lasso <- function(Y, n, S = NULL, p = NULL, nlambda = 4, ...) {
   fit <- GGMncv::ggmncv(R,
                         penalty = "lasso",
                         n = n,
-                        ic = "bic",
+                        ic = ic,
                         ...)
   ls <- list()
   l <- fit$lambda
   l_length <- seq_along(l)
   for(i in l_length){
-    li <- seq(0, l[i], length.out = nlambda)
+    li <- seq(0, l[i], length.out = nlambda_relaxed)
     adji <- ifelse(fit$fitted_models[[i]]$wi == 0, 0 , 1)
     newR <- GGMncv::constrained(R, adj = adji)$Sigma
     fit2 <- GGMncv::ggmncv(newR, n = n, lambda = li, ...)
@@ -45,10 +44,8 @@ relaxed_lasso <- function(Y, n, S = NULL, p = NULL, nlambda = 4, ...) {
                         edges = sum(ls[[x]]$Theta[upper.tri(diag(p))] != 0),
                         n = n,
                         p = p,
-                        type = "bic")
+                        type = ic)
   })
-  # adjnew <- ls[[which.min(bics)]]$Theta
-  # adj <- ifelse(adjnew == 0, 0, 1)
   relaxed <- ls[[which.min(bics)]]
   class(relaxed) <- c("glaxo", class(relaxed))
   return(relaxed)
@@ -103,4 +100,49 @@ predict.glaxo <- function(object, newdata, scale = TRUE, ...) {
   ret <- list(predictions = predictions,
               beta_matrix = coef_mat)
   return(ret)
+}
+
+
+#' Plotting method for glaxo objects
+#'
+#' @param object
+#' @param layout
+#' @param node_labels
+#' @param ...
+#'
+#' @return
+#' @export
+#' @import ggnetwork
+#' @examples
+#'
+
+plot_edges <- function(object,
+                       layout = "fruchtermanreingold",
+                       node_labels = NULL,
+                       ...) {
+    theta <- solve(object$fit$w)
+    ds <- diag(diag(theta^-0.5))
+    pcors <- -(ds %*% theta %*% ds)
+    diag(pcors) <- -(diag(pcors))
+
+    plot_list <- list(P = pcors, adj = ifelse(pcors > 0, 1, 0))
+
+    net <- network::network(plot_list$adj)
+
+    network::set.edge.value(net, "edge_weights", value = plot_list$P[upper.tri(plot_list$P)])
+
+    if (is.null(node_labels)) node_labels <- as.character(1:ncol(pcors))
+    network::set.vertex.attribute(net, "node_labels", value = node_labels)
+
+    gg_net <- ggnetwork(net, layout = layout)
+    p <-
+      ggplot(gg_net, aes(x = x,
+                         y = y,
+                         xend = xend,
+                         yend = yend)) +
+      geom_edges(aes(size = edge_weights)) +
+      geom_nodes(size = 11, col = "black") +
+      geom_nodes(size = 10, col = "white") +
+      geom_nodetext(aes(label = node_labels))
+    return(p)
 }
