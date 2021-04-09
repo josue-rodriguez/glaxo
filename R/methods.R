@@ -76,7 +76,6 @@ predict.glaxo <- function(object, newdata, scale = TRUE) {
 #' @importFrom network network
 #' @importFrom network set.edge.value
 #' @importFrom network set.vertex.attribute
-#' @importFrom utils globalVariables
 
 plot_edges <- function(object,
                        layout = "fruchtermanreingold",
@@ -88,34 +87,32 @@ plot_edges <- function(object,
                        node_border_color = "black",
                        edge_alpha = 1,
                        ...) {
-  theta <- solve(object$fit$w)
-  ds <- diag(diag(theta^-0.5))
-  pcors <- -(ds %*% theta %*% ds)
-  diag(pcors) <- -(diag(pcors))
 
+  P_lower <- object$P[lower.tri(object$P)]
+  P_not_zero <- P_lower[which(P_lower != 0)]
 
-  plot_list <- list(P = pcors[upper.tri(pcors)], adj = ifelse(pcors > 0, 1, 0))
+  pos_neg <- ifelse(P_not_zero >= 0, "pos", "neg")
 
-  pos_neg <- ifelse(plot_list$P >= 0, "pos", "neg")
+  net <- network::network(object$adj,
+                          directed = FALSE)
 
-  net <- network::network(plot_list$adj, directed = FALSE)
+  network::set.edge.attribute(net, attrname = "edge_weights", value = abs(P_not_zero))
 
-  network::set.edge.value(net, "edge_weights", value = plot_list$P)
-  network::set.edge.value(net, "pos_neg", value = pos_neg)
+  network::set.edge.attribute(net, attrname = "pos_neg", value = pos_neg)
 
-  if (is.null(node_labels)) node_labels <- as.character(1:length(pcors))
+  if (is.null(node_labels)) node_labels <- as.character(1:ncol(object$P))
   network::set.vertex.attribute(net, "node_labels", value = node_labels)
 
   gg_net <- ggnetwork(net, layout = layout, ...)
 
-  p <-
+    p <-
     ggplot(gg_net, aes(x = x,
                        y = y,
                        xend = xend,
                        yend = yend)) +
     geom_edges(aes(size = edge_weights, col = pos_neg),
                alpha = edge_alpha) +
-    geom_nodes(size = node_border_size) +
+    geom_nodes(size = node_border_size, col = node_border_color) +
     geom_nodes(size = node_size, col = node_color) +
     geom_nodetext(aes(label = node_labels), size = node_label_size)
   return(p)

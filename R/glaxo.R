@@ -21,11 +21,10 @@
 #' @return An object of classes \code{glaxo}, \code{ggmncv}, and \code{default}
 #' @importFrom GGMncv ggmncv
 #' @importFrom stats cor cov2cor
-#' @importFrom utils globalVariables
 
 
 
-glaxo <- function(Y, n, S = NULL, nlambda_relaxed = 4, ic = "bic", ...) {
+glaxo <- function(Y, S = NULL, n = NULL, nlambda_relaxed = 4, ic = "bic", ...) {
   if (is.null(S)) {R <- cor(Y); p <- ncol(Y); n <- nrow(Y)} else {R <- cov2cor(S); p <- ncol(S)}
   # Step 1
   fit <- GGMncv::ggmncv(R,
@@ -54,11 +53,11 @@ glaxo <- function(Y, n, S = NULL, nlambda_relaxed = 4, ic = "bic", ...) {
     edges <- sum(model_list[[x]]$Theta[upper.tri(diag(p))] != 0)
 
     gic_helper(Theta = Theta,
-                        R = R,
-                        n = n,
-                        p = p,
-                        edges = edges,
-                        type = ic)
+               R = R,
+               n = n,
+               p = p,
+               edges = edges,
+               type = ic)
   }
 
 

@@ -4,14 +4,14 @@
 \alias{glaxo}
 \title{Relaxed glasso}
 \usage{
-glaxo(Y, n, S = NULL, nlambda_relaxed = 4, ic = "bic", ...)
+glaxo(Y, S = NULL, n = NULL, nlambda_relaxed = 4, ic = "bic", ...)
 }
 \arguments{
 \item{Y}{A \code{data.frame} or matrix containing data. Specified if not supplying covariance matrix.}
 
-\item{n}{Number of observations. Specified if not supplying raw data.}
-
 \item{S}{A covariance matrix. Specified if not supplying raw data.}
+
+\item{n}{Number of observations. Specified if not supplying raw data.}
 
 \item{nlambda_relaxed}{Number of lambdas to be generated in Step 2 of algorithm}
 

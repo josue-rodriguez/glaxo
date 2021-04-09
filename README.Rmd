@@ -1,0 +1,78 @@
+---
+output: github_document
+bibliography: inst/ref.bib
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# glaxo
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+The glaxo package provides an implementation of the relaxed lasso for Gaussian graphical models based on the simple algorithm described in section 2.2 of @meinshausen2007relaxed. Because the classical lasso introduces bias into the parameters, the motivation behind the relaxed lasso is to *debias* the estimates.
+
+
+## Installation
+
+You can install the released version of glaxo from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("glaxo")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("josue-rodriguez/glaxo")
+```
+## Example
+
+This is a basic example which shows you how to solve a common problem:
+
+```{r example, dpi=320, message=FALSE, warning=FALSE}
+library(glaxo)
+
+Y <- subset(psych::bfi, select = 1:10)
+Y <- na.omit(Y)
+
+relaxed_glasso <- glaxo(Y[1:1000, ], progress = FALSE)
+```
+
+
+```{r}
+relaxed_glasso
+```
+
+```{r plot, dpi=320}
+library(ggnetwork)
+
+plot_edges(relaxed_glasso, layout = "circle") +
+  scale_size(range = c(0,2)) +
+  guides(size = FALSE) +
+  scale_color_manual(values = c("#FAA43A", "#5DA5DA"),
+                     name = "",
+                     labels = c("Negative", "Positive")) +
+  theme_facet() +
+  theme(legend.position = "top")
+```
+
+```{r}
+preds <- predict(relaxed_glasso, newdata = Y[1001:2000, ])
+str(preds)
+round(head(preds$predictions), 3)
+round(preds$beta_matrix, 3)
+```
+
+
+# References
