@@ -15,6 +15,10 @@
 }
 \value{
 A list containing the predictions and associated coefficients
+\describe{
+\item{predictions}{...}
+\item{beta_matrix}{A \eqn{p x p}  matrix with beta coefficients on the off-diagonals and variances on the diagonals}
+}
 }
 \description{
 Generate predictions for new data based on glasso estimates

@@ -7,12 +7,17 @@
 #' @param scale Whether the newdata should be scaled. Default is true.
 #'
 #' @return A list containing the predictions and associated coefficients
+#' \describe{
+#' \item{predictions}{...}
+#' \item{beta_matrix}{A \eqn{p x p}  matrix with beta coefficients on the off-diagonals and variances on the diagonals}
+#' }
 #' @export
 #'
 
 
 predict.glaxo <- function(object, newdata, scale = TRUE) {
   if (missing(newdata)) stop("newdata must be specified")
+  if (!is.matrix(newdata)) newdata <- as.matrix(newdata)
   if (scale) {
     newdata <- scale(newdata)
     og_mean <- attr(newdata, "scaled:center")
@@ -106,15 +111,15 @@ plot_edges <- function(object,
   gg_net <- ggnetwork(net, layout = layout, ...)
 
     p <-
-    ggplot(gg_net, aes(x = x,
-                       y = y,
-                       xend = xend,
-                       yend = yend)) +
-    geom_edges(aes(size = edge_weights, col = pos_neg),
-               alpha = edge_alpha) +
-    geom_nodes(size = node_border_size, col = node_border_color) +
-    geom_nodes(size = node_size, col = node_color) +
-    geom_nodetext(aes(label = node_labels), size = node_label_size)
+      ggplot(gg_net, aes(x = x,
+                         y = y,
+                         xend = xend,
+                         yend = yend)) +
+      geom_edges(aes(size = edge_weights, col = pos_neg),
+                 alpha = edge_alpha) +
+      geom_nodes(size = node_border_size, col = node_border_color) +
+      geom_nodes(size = node_size, col = node_color) +
+      geom_nodetext(aes(label = node_labels), size = node_label_size)
   return(p)
 }
 

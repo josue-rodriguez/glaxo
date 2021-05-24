@@ -14,10 +14,14 @@ knitr::opts_chunk$set(
 )
 ```
 
+<img src='man/figures/logo.png' align="left" height="120" />
+
 # glaxo
 
 <!-- badges: start -->
 <!-- badges: end -->
+
+
 
 The glaxo package provides an implementation of the relaxed lasso for Gaussian graphical models based on the simple algorithm described in section 2.2 of @meinshausen2007relaxed. Because the classical lasso introduces bias into the parameters, the motivation behind the relaxed lasso is to *debias* the estimates.
 
