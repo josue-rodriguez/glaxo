@@ -1,13 +1,14 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-<img src='man/figures/logo.png' align="left" height="120" />
-
 # glaxo
 
-<!-- badges: start -->
-<!-- badges: end -->
+<img src='man/figures/logo.png' align="left" height="240" />
+<!-- badges: start --> <!-- badges: end -->
 
+  
+  
+  
 The glaxo package provides an implementation of the relaxed lasso for
 Gaussian graphical models based on the simple algorithm described in
 section 2.2 of Meinshausen (2007). Because the classical lasso
