@@ -3,7 +3,7 @@
 
 # glaxo
 
-<img src='man/figures/logo.png' align="left" height="240" />
+<img src='inst/glaxo-logo.png' align="left" height="240" />
 <!-- badges: start --> <!-- badges: end -->
 
   
