@@ -63,7 +63,6 @@ relaxed_glasso
 
 ``` r
 library(ggnetwork)
-#> Loading required package: ggplot2
 
 plot_edges(relaxed_glasso, layout = "circle") +
   scale_size(range = c(0,2)) +
@@ -103,6 +102,43 @@ round(preds$beta_matrix, 3)
 #>  [8,]  0.051  0.149  0.000 -0.040  0.000  0.127  0.265  0.730 -0.075 -0.194
 #>  [9,]  0.069  0.000  0.000  0.040 -0.027 -0.182 -0.193 -0.068  0.662  0.356
 #> [10,]  0.000  0.000  0.000 -0.136 -0.039  0.000 -0.019 -0.189  0.382  0.711
+```
+
+# Relaxed lasso vs regular lasso
+
+``` r
+library(GGMncv)
+library(GGMnonreg)
+
+
+main <- gen_net()
+n <- 5000
+Y <- MASS::mvrnorm(n, mu = rep(0, 20), main$cors)
+
+regular_glasso <- GGMncv::ggmncv(cor(Y), n = nrow(Y), 
+                                 penalty = "lasso", 
+                                 ic = "bic",
+                                 progress = FALSE)
+
+relaxed_glasso <- glaxo(Y, progress = FALSE, ic = "bic")
+
+
+glaxo:::compare(Estimate = regular_glasso$adj, True = main$adj)
+#>       measure     score
+#> 1 Specificity 0.6390977
+#> 2 Sensitivity 1.0000000
+#> 3   Precision 0.5428571
+#> 4      Recall 1.0000000
+#> 5    F1_score 0.7037037
+#> 6         MCC 0.5890151
+glaxo:::compare(Estimate = relaxed_glasso$adj, True = main$adj)
+#>       measure     score
+#> 1 Specificity 0.9699248
+#> 2 Sensitivity 1.0000000
+#> 3   Precision 0.9344262
+#> 4      Recall 1.0000000
+#> 5    F1_score 0.9661017
+#> 6         MCC 0.9520101
 ```
 
 # References

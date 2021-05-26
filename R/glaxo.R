@@ -25,7 +25,14 @@
 
 
 glaxo <- function(Y, S = NULL, n = NULL, nlambda_relaxed = 4, ic = "bic", ...) {
-  if (is.null(S)) {R <- cor(Y); p <- ncol(Y); n <- nrow(Y)} else {R <- cov2cor(S); p <- ncol(S)}
+  if (is.null(S)) {
+    R <- cor(Y)
+    p <- ncol(Y)
+    n <- nrow(Y)
+  } else {
+    R <- cov2cor(S)
+    p <- ncol(S)
+    }
   # Step 1
   fit <- GGMncv::ggmncv(R,
                         penalty = "lasso",
