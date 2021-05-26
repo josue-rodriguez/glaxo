@@ -3,9 +3,11 @@
 
 # glaxo
 
-<img src='inst/glaxo-logo.png' align="center" height="240" />
-
 <!-- badges: start -->
+
+<img src='inst/glaxo-logo.png' align="center" height="240" />
+[![CircleCI build
+status](https://circleci.com/gh/josue-rodriguez/glaxo.svg?style=shield)](https://circleci.com/gh/josue-rodriguez/glaxo)
 <!-- badges: end -->
 
 The glaxo package provides an implementation of the relaxed lasso for
