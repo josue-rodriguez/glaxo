@@ -6,6 +6,7 @@
 <!-- badges: start -->
 
 <img src='inst/glaxo-logo.png' align="center" height="240" />
+
 [![CircleCI build
 status](https://circleci.com/gh/josue-rodriguez/glaxo.svg?style=shield)](https://circleci.com/gh/josue-rodriguez/glaxo)
 <!-- badges: end -->
