@@ -7,8 +7,8 @@
 #' @param S A covariance matrix. Specified if not supplying raw data.
 #' @param n Number of observations. Specified if not supplying raw data.
 #' @param nlambda_relaxed Number of lambdas to be generated in Step 2 of algorithm
-#' @param ic Information critera to be used for selecting model. See \code{\link[GGMncv]{ggmncv}}.
-#' @param ...  Other arguments to be passed on to \code{\link[GGMncv]{ggmncv}}
+#' @param ic Information critera to be used for selecting model. See \code{\link[GGMncv]{ggmncv}} in the GGMncv package
+#' @param ...  Other arguments to be passed on to \code{\link[GGMncv]{ggmncv}} in the GGMncv package
 #'
 #'
 #' @examples

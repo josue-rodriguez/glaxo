@@ -10,7 +10,7 @@
 #' @return A list containing the predictions and associated coefficients
 #' \describe{
 #' \item{predictions}{An \eqn{n x p} matrix containing predictions for the new data}
-#' \item{beta_matrix}{A \eqn{p x p}  matrix each \eqn{ij}th element (\eqn{i \neq} j) is the beta coefficient of variable j when predicting variable i. The diagonal elements encode the variances for the corresponding variables.}
+#' \item{beta_matrix}{A \eqn{p x p}  matrix each \eqn{(i,j)}th element (\eqn{i \neq j}) is the beta coefficient of variable j when predicting variable i. The diagonal elements encode the variances for the corresponding variables.}
 #' }
 #'
 #' @rdname predict.glaxo

@@ -113,8 +113,8 @@ round(preds$beta_matrix, 3)
 
 # Relaxed lasso vs regular lasso
 
-By debiasing the estimates, the relaxed lasso can outperform “vanilla”
-lasso
+By debiasing the estimates, the relaxed lasso can outperform the
+traditional lasso solution
 
 ``` r
 library(GGMncv)
@@ -135,12 +135,12 @@ relaxed_glasso <- glaxo(Y, progress = FALSE, ic = "bic")
 
 glaxo:::compare(Estimate = regular_glasso$adj, True = main$adj)
 #>       measure     score
-#> 1 Specificity 0.4135338
+#> 1 Specificity 0.4511278
 #> 2 Sensitivity 1.0000000
-#> 3   Precision 0.4222222
+#> 3   Precision 0.4384615
 #> 4      Recall 1.0000000
-#> 5    F1_score 0.5937500
-#> 6         MCC 0.4178554
+#> 5    F1_score 0.6096257
+#> 6         MCC 0.4447496
 glaxo:::compare(Estimate = relaxed_glasso$adj, True = main$adj)
 #>       measure     score
 #> 1 Specificity 0.9473684

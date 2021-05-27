@@ -88,7 +88,7 @@ round(preds$beta_matrix, 3)
 
 # Relaxed lasso vs regular lasso
 
-By debiasing the estimates, the relaxed lasso can outperform "vanilla" lasso
+By debiasing the estimates, the relaxed lasso can outperform the traditional lasso solution
 
 ```{r}
 library(GGMncv)
