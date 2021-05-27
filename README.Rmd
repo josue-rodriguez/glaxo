@@ -45,21 +45,23 @@ devtools::install_github("josue-rodriguez/glaxo")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+The main function in this package is called `glaxo` (relaxed + glasso). In it's most basic form, it takes a `data.frame` or `matrix` and estimates the relaxed lasso solution for the graphical model
 
 ```{r example, dpi=320, message=FALSE, warning=FALSE}
 library(glaxo)
 
-Y <- subset(psych::bfi, select = 1:10)
+Y <- psych::bfi[, 1:10]
 Y <- na.omit(Y)
 
-relaxed_glasso <- glaxo(Y[1:1000, ], progress = FALSE)
+relaxed_glasso <- glaxo(Y, progress = FALSE)
 ```
 
 
 ```{r}
 relaxed_glasso
 ```
+
+The resulting object can also be plotted using standard `ggplot2` syntax
 
 ```{r plot, dpi=320}
 library(ggnetwork)
@@ -74,6 +76,8 @@ plot_edges(relaxed_glasso, layout = "circle") +
   theme(legend.position = "top")
 ```
 
+Predictions can be made on new data using the relationship between Gaussian graphical models and linear regression [e.g., @stevens1998inverse]
+
 ```{r}
 preds <- predict(relaxed_glasso, newdata = Y[1001:2000, ])
 str(preds)
@@ -83,6 +87,8 @@ round(preds$beta_matrix, 3)
 
 
 # Relaxed lasso vs regular lasso
+
+By debiasing the estimates, the relaxed lasso can outperform "vanilla" lasso
 
 ```{r}
 library(GGMncv)

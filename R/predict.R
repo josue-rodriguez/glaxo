@@ -9,8 +9,8 @@
 #'
 #' @return A list containing the predictions and associated coefficients
 #' \describe{
-#' \item{predictions}{...}
-#' \item{beta_matrix}{A \eqn{p x p}  matrix with beta coefficients on the off-diagonals and variances on the diagonals}
+#' \item{predictions}{An \eqn{n x p} matrix containing predictions for the new data}
+#' \item{beta_matrix}{A \eqn{p x p}  matrix each \eqn{ij}th element (\eqn{i \neq} j) is the beta coefficient of variable j when predicting variable i. The diagonal elements encode the variances for the corresponding variables.}
 #' }
 #'
 #' @rdname predict.glaxo
@@ -27,7 +27,7 @@ predict.glaxo <- function(object, newdata, scale = TRUE, ...) {
     og_mean <- attr(newdata, "scaled:center")
     og_sd <- attr(newdata, "scaled:scale")
   }
-  # precision matrix (glasso precision matrix is not always symmetric)
+  # invert glasso covariance matrix w (glasso precision `wi` matrix is not always symmetric)
   theta <- solve(object$fit$w)
   p <- ncol(theta)
 
