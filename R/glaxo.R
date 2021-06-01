@@ -27,7 +27,7 @@
 
 glaxo <- function(Y, S = NULL, n = NULL, nlambda_relaxed = 4, ic = "bic", ...) {
   if (is.null(S)) {
-    # if (!(is(Y, "data.frame") | is(Y, "matrix"))) stop("Y must be a data.frame or matrix")
+    if (!(is(Y, "data.frame") | is(Y, "matrix"))) stop("Y must be a data.frame or matrix")
     R <- cor(Y)
     p <- ncol(Y)
     n <- nrow(Y)
@@ -58,7 +58,6 @@ glaxo <- function(Y, S = NULL, n = NULL, nlambda_relaxed = 4, ic = "bic", ...) {
     tmp_fit <- GGMncv::ggmncv(newR,
                               n = n,
                               lambda = li,
-                              penalty = "lasso",
                               ...)
     model_list[[i]] <- tmp_fit
   }

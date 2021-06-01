@@ -88,7 +88,7 @@ round(preds$beta_matrix, 3)
 
 # Relaxed lasso vs regular lasso
 
-The intuition behind the relaxed lasso is that the lasso algorithm is run on the data once for an initial screening and then again to screen out false positives. This can result in better performance than the traditional lasso solution
+The intuition behind the relaxed lasso is that the lasso algorithm is run on the data once for an initial screening and then again to lower the false positive rate (i.e., 1 - specificity). This can result in better performance than the traditional lasso solution
 
 ```{r}
 library(GGMncv)
@@ -97,7 +97,8 @@ main <- GGMnonreg::gen_net()
 n <- 5000
 Y <- MASS::mvrnorm(n, mu = rep(0, 20), main$cors)
 
-regular_glasso <- GGMncv::ggmncv(cor(Y), n = nrow(Y), 
+regular_glasso <- GGMncv::ggmncv(cor(Y),
+                                 n = nrow(Y), 
                                  penalty = "lasso", 
                                  ic = "bic",
                                  progress = FALSE)
