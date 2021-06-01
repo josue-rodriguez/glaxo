@@ -21,17 +21,23 @@
 #' @return An object of classes \code{glaxo}, \code{ggmncv}, and \code{default}
 #' @importFrom GGMncv ggmncv
 #' @importFrom stats cor cov2cor
+#' @importFrom methods is
 
 
 
 glaxo <- function(Y, S = NULL, n = NULL, nlambda_relaxed = 4, ic = "bic", ...) {
   if (is.null(S)) {
+    # if (!(is(Y, "data.frame") | is(Y, "matrix"))) stop("Y must be a data.frame or matrix")
     R <- cor(Y)
     p <- ncol(Y)
     n <- nrow(Y)
-  } else {
+  } else if (!is.null(S)) {
+    if (!is(S, "matrix")) stop("S must be a matrix")
+    if (is.null(n)) stop ("Please specify n")
     R <- cov2cor(S)
     p <- ncol(S)
+  } else {
+      stop("Please specify either Y or S")
     }
   # Step 1
   fit <- GGMncv::ggmncv(R,
@@ -49,7 +55,11 @@ glaxo <- function(Y, S = NULL, n = NULL, nlambda_relaxed = 4, ic = "bic", ...) {
     li <- seq(0, lambdas[i], length.out = nlambda_relaxed)
     adji <- ifelse(fit$fitted_models[[i]]$wi == 0, 0 , 1)
     newR <- GGMncv::constrained(R, adj = adji)$Sigma
-    tmp_fit <- GGMncv::ggmncv(newR, n = n, lambda = li, ...)
+    tmp_fit <- GGMncv::ggmncv(newR,
+                              n = n,
+                              lambda = li,
+                              penalty = "lasso",
+                              ...)
     model_list[[i]] <- tmp_fit
   }
 

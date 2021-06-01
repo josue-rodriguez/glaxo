@@ -88,14 +88,12 @@ round(preds$beta_matrix, 3)
 
 # Relaxed lasso vs regular lasso
 
-By debiasing the estimates, the relaxed lasso can outperform the traditional lasso solution
+The intuition behind the relaxed lasso is that the lasso algorithm is run on the data once for an initial screening and then again to screen out false positives. This can result in better performance than the traditional lasso solution
 
 ```{r}
 library(GGMncv)
-library(GGMnonreg)
 
-
-main <- gen_net()
+main <- GGMnonreg::gen_net()
 n <- 5000
 Y <- MASS::mvrnorm(n, mu = rep(0, 20), main$cors)
 
@@ -107,8 +105,8 @@ regular_glasso <- GGMncv::ggmncv(cor(Y), n = nrow(Y),
 relaxed_glasso <- glaxo(Y, progress = FALSE, ic = "bic")
 
 
-glaxo:::compare(Estimate = regular_glasso$adj, True = main$adj)
-glaxo:::compare(Estimate = relaxed_glasso$adj, True = main$adj)
+glaxo:::performance(Estimate = regular_glasso$adj, True = main$adj)
+glaxo:::performance(Estimate = relaxed_glasso$adj, True = main$adj)
 ```
 
 # References

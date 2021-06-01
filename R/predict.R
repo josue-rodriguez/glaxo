@@ -1,7 +1,6 @@
 #' Predict method for glaxo object
 #'
 #' Generate predictions for new data based on glasso estimates
-#'
 #' @param object An object of type \code{glaxo}
 #' @param newdata A \code{data.frame} or matrix with with same number of columns as the original data.
 #' @param scale Whether the newdata should be scaled. Default is true.
@@ -9,8 +8,8 @@
 #'
 #' @return A list containing the predictions and associated coefficients
 #' \describe{
-#' \item{predictions}{An \eqn{n x p} matrix containing predictions for the new data}
-#' \item{beta_matrix}{A \eqn{p x p}  matrix each \eqn{(i,j)}th element (\eqn{i \neq j}) is the beta coefficient of variable j when predicting variable i. The diagonal elements encode the variances for the corresponding variables.}
+#' \item{predictions}{A matrix containing predictions for the new data}
+#' \item{beta_matrix}{A matrix where each (i,j)th element is the beta coefficient of variable j when predicting variable i. The diagonal elements encode the variances for the corresponding variables.}
 #' }
 #'
 #' @rdname predict.glaxo

@@ -15,9 +15,9 @@ glaxo(Y, S = NULL, n = NULL, nlambda_relaxed = 4, ic = "bic", ...)
 
 \item{nlambda_relaxed}{Number of lambdas to be generated in Step 2 of algorithm}
 
-\item{ic}{Information critera to be used for selecting model. See \code{\link[GGMncv]{ggmncv}}.}
+\item{ic}{Information critera to be used for selecting model. See \code{\link[GGMncv]{ggmncv}} in the GGMncv package}
 
-\item{...}{Other arguments to be passed on to \code{\link[GGMncv]{ggmncv}}}
+\item{...}{Other arguments to be passed on to \code{\link[GGMncv]{ggmncv}} in the GGMncv package}
 }
 \value{
 An object of classes \code{glaxo}, \code{ggmncv}, and \code{default}

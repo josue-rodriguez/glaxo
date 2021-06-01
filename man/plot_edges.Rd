@@ -38,6 +38,9 @@ plot_edges(
 
 \item{...}{Additional arguments to be passed to \code{\link[ggnetwork]{ggnetwork}}}
 }
+\value{
+An object of class \code{ggplot}
+}
 \description{
 Plotting method for glaxo objects
 }
@@ -48,5 +51,6 @@ Y <- na.omit(Y)
 
 model <- glaxo(Y, progress = FALSE)
 plot_edges(model)
+
 
 }

@@ -42,7 +42,7 @@ gic_helper <- function (Theta, R, edges, n, p, type = "bic", ...)
 
 
 # taken from IRCcheck:::compare
-compare <- function (Estimate, True) {
+performance <- function (Estimate, True) {
   True <- as.matrix(True)
   Estimate <- as.matrix(Estimate)
   TN <- ifelse(True[upper.tri(True)] == 0 & Estimate[upper.tri(Estimate)] ==

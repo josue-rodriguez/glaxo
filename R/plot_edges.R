@@ -19,6 +19,9 @@
 #' model <- glaxo(Y, progress = FALSE)
 #' plot_edges(model)
 #'
+#'
+#' @return An object of class \code{ggplot}
+#'
 #' @export
 #'
 #' @import ggnetwork
